@@ -1,7 +1,8 @@
 import './errorMessage.scss'
+import img from './error.gif'
 
 const ErrorMessage = () => {
-	return <img src={process.env.PUBLIC_URL + '/error.gif'} alt="Error" />
+	return <img src={img} alt="Error" />
 }
 
 export default ErrorMessage;
