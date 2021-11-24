@@ -35,8 +35,8 @@ class MarvelService {
 		if (str.length === 0) {
 			return `К сожалению, описание об персонаже отсутствует. Приносим извинения, за доставленные неудобства.`
 		}
-		if (str.length > 230) {
-			return str.slice(0, 200) + '...'
+		if (str.length > 210) {
+			return `${str.slice(0, 210)}...`
 		}
 	}
 
