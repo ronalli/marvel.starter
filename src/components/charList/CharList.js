@@ -46,7 +46,7 @@ class CharList extends Component {
 			let imgStyle = { 'objectFit': 'cover' };
 			if (item.thumbnail.indexOf('image_not_available') > 0) imgStyle = { 'objectFit': 'unset' };
 			return (
-				<li key={item.name} className="char__item" >
+				<li key={item.id} className="char__item" >
 					<img src={item.thumbnail} alt={item.name} style={imgStyle} />
 					<div className="char__name">{item.name}</div>
 				</li>

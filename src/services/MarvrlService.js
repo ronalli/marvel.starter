@@ -23,12 +23,18 @@ class MarvelService {
 
 	_transformCharacter = (char) => {
 		return {
-			name: char.name,
+			id: char.id,
+			name: this.transformName(char.name),
 			description: this.transformDescription(char.description),
 			thumbnail: `${char.thumbnail.path}.${char.thumbnail.extension}`,
 			homepage: char.urls[0].url,
 			wiki: char.urls[1].url
 		}
+	}
+
+	transformName = (str) => {
+		if (str.length > 16) return `${str.slice(0, 16)}...`
+		return str;
 	}
 
 	transformDescription = (str) => {
