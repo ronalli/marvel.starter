@@ -33,7 +33,7 @@ class MarvelService {
 	}
 
 	transformName = (str) => {
-		if (str.length > 16) return `${str.slice(0, 16)}...`
+		if (str.length > 16) return `${str.slice(0, 15)}`
 		return str;
 	}
 

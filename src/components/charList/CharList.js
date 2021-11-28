@@ -5,7 +5,6 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
 import './charList.scss';
-// import abyss from '../../resources/img/abyss.jpg';
 
 
 class CharList extends Component {
@@ -34,7 +33,6 @@ class CharList extends Component {
 	}
 
 	onError = () => {
-		console.log('error');
 		this.setState({
 			loading: false,
 			error: true
@@ -46,7 +44,11 @@ class CharList extends Component {
 			let imgStyle = { 'objectFit': 'cover' };
 			if (item.thumbnail.indexOf('image_not_available') > 0) imgStyle = { 'objectFit': 'unset' };
 			return (
-				<li key={item.id} className="char__item" >
+				<li
+					key={item.id}
+					className="char__item"
+					onClick={() => this.props.onCharSelected(item.id)}
+				>
 					<img src={item.thumbnail} alt={item.name} style={imgStyle} />
 					<div className="char__name">{item.name}</div>
 				</li>
