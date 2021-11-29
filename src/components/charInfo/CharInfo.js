@@ -1,9 +1,9 @@
 import { Component } from 'react';
 
-
+import ServicesFunctions from '../../services/ServicesFunctions';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import MarvelService from '../../services/MarvrlService';
+import MarvelService from '../../services/MarvelService';
 import Skeleton from '../skeleton/Skeleton';
 import './charInfo.scss';
 
@@ -80,7 +80,7 @@ const View = ({ char }) => {
 	const { name, description, thumbnail, homepage, wiki, comics } = char;
 
 	const renderComics = (comics) => {
-		if (comics.length === 0) return <p>Комиксов нет!</p>
+		if (comics.length === 0) return <p>К большому сожалению, для данного героя комиксов нет! Возможно в будущем это исправится.</p>
 		return comics.map((item, index) => {
 			return <li
 				className="char__comics-item"
@@ -94,7 +94,7 @@ const View = ({ char }) => {
 	return (
 		<>
 			<div className="char__basics">
-				<img src={thumbnail} alt={name} />
+				<img src={thumbnail} alt={name} style={ServicesFunctions.transformImage(thumbnail)} />
 				<div>
 					<div className="char__info-name">{name}</div>
 					<div className="char__btns">

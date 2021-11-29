@@ -29,7 +29,8 @@ class MarvelService {
 			thumbnail: `${char.thumbnail.path}.${char.thumbnail.extension}`,
 			homepage: char.urls[0].url,
 			wiki: char.urls[1].url,
-			comics: char.comics.items
+			//Ограничение вывода количества комиксов
+			comics: char.comics.items.filter((item, index) => index < 9)
 		}
 	}
 
@@ -40,11 +41,12 @@ class MarvelService {
 
 	transformDescription = (str) => {
 		if (str.length === 0) {
-			return `К сожалению, описание об персонаже отсутствует. Приносим извинения, за доставленные неудобства.`
+			return `К сожалению, описание об этом персонаже отсутствует. Приносим извинения, за доставленные неудобства.`
 		}
 		if (str.length > 210) {
 			return `${str.slice(0, 210)}...`
 		}
+		return str;
 	}
 
 	randomIdCharacter = () => {

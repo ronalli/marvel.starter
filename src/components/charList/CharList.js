@@ -1,6 +1,7 @@
 import { Component } from 'react';
 
-import MarvelService from '../../services/MarvrlService';
+import ServicesFunctions from '../../services/ServicesFunctions';
+import MarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
@@ -41,15 +42,15 @@ class CharList extends Component {
 
 	renderCharacters = (characters) => {
 		const items = characters.map(item => {
-			let imgStyle = { 'objectFit': 'cover' };
-			if (item.thumbnail.indexOf('image_not_available') > 0) imgStyle = { 'objectFit': 'unset' };
+			// let imgStyle = { 'objectFit': 'cover' };
+			// if (item.thumbnail.indexOf('image_not_available') > 0) imgStyle = { 'objectFit': 'unset' };
 			return (
 				<li
 					key={item.id}
 					className="char__item"
 					onClick={() => this.props.onCharSelected(item.id)}
 				>
-					<img src={item.thumbnail} alt={item.name} style={imgStyle} />
+					<img src={item.thumbnail} alt={item.name} style={ServicesFunctions.transformImage(item.thumbnail)} />
 					<div className="char__name">{item.name}</div>
 				</li>
 			)
