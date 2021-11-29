@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-import ServicesFunctions from '../../services/ServicesFunctions';
+import ServicesFunctions from '../../services/servicesFunctions';
 import MarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
