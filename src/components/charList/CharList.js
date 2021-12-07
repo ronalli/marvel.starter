@@ -76,30 +76,19 @@ class CharList extends Component {
 		})
 	}
 
-	itemsRefs = []
-
-	setRef = (ref) => {
-		this.itemsRefs.push(ref)
-	}
-
-	focusItem = (id) => {
-		this.itemsRefs.forEach(item => item.classList.remove('char__item_selected'))
-		this.itemsRefs[id].classList.add('char__item_selected');
-		this.itemsRefs[id].focus();
-	}
-
-	renderCharacters = (characters) => {
-		const items = characters.map((item, i) => {
+	renderCharacters = (characters, selectedChar) => {
+		const items = characters.map(item => {
+			let active = selectedChar === item.id;
+			let crazy = active ? 'char__item char__item_selected' : 'char__item';
 			return (
 				<li
+					className={crazy}
 					tabIndex={0}
 					key={item.id}
-					ref={this.setRef}
-					className="char__item"
-					onClick={() => {
+					onFocus={() => {
 						this.props.onCharSelected(item.id)
-						this.focusItem(i)
 					}}
+				// className="char__item"
 				>
 					<img src={item.thumbnail} alt={item.name} style={ServicesFunctions.transformImage(item.thumbnail)} />
 					<div className="char__name">{item.name}</div>
@@ -116,8 +105,9 @@ class CharList extends Component {
 
 
 	render() {
+		const { selectedChar } = this.props;
 		const { characters, loading, error, offset, newItemsLoading, charEnded } = this.state;
-		const content = !(loading || error) ? this.renderCharacters(characters) : null;
+		const content = !(loading || error) ? this.renderCharacters(characters, selectedChar) : null;
 		const spinner = loading ? <Spinner className="spinner-list" /> : null;
 		const errorMessage = error ? <ErrorMessage /> : null
 		return (

@@ -27,7 +27,7 @@ class App extends Component {
 				<main>
 					<RandomChar />
 					<div className="char__content">
-						<CharList onCharSelected={this.onCharSelected} />
+						<CharList onCharSelected={this.onCharSelected} selectedChar={this.state.selectedChar} />
 						<ErrorBoundary>
 							<CharInfo charId={this.state.selectedChar} />
 						</ErrorBoundary>
