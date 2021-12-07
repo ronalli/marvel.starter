@@ -28,23 +28,17 @@ class CharList extends Component {
 
 
 	showModalByScroll = () => {
-
-		// console.log('wind', window.scrollY)
-		// console.log('client', document.documentElement.clientHeight)
-		// console.log(document.documentElement.scrollHeight)
 		if (Math.ceil(window.scrollY + document.documentElement.clientHeight) >= document.documentElement.scrollHeight) {
 			this.setState({
 				offset: this.state.offset + 9,
 			})
 			this.onRequest(this.state.offset);
 		}
-		// console.log('g')
 	}
 
 	componentWillUnmount() {
 		window.removeEventListener('scroll', this.showModalByScroll);
 	}
-
 
 	onRequest = (offset) => {
 		this.onCharListLoading();
@@ -82,13 +76,30 @@ class CharList extends Component {
 		})
 	}
 
+	itemsRefs = []
+
+	setRef = (ref) => {
+		this.itemsRefs.push(ref)
+	}
+
+	focusItem = (id) => {
+		this.itemsRefs.forEach(item => item.classList.remove('char__item_selected'))
+		this.itemsRefs[id].classList.add('char__item_selected');
+		this.itemsRefs[id].focus();
+	}
+
 	renderCharacters = (characters) => {
-		const items = characters.map(item => {
+		const items = characters.map((item, i) => {
 			return (
 				<li
+					tabIndex={0}
 					key={item.id}
+					ref={this.setRef}
 					className="char__item"
-					onClick={() => this.props.onCharSelected(item.id)}
+					onClick={() => {
+						this.props.onCharSelected(item.id)
+						this.focusItem(i)
+					}}
 				>
 					<img src={item.thumbnail} alt={item.name} style={ServicesFunctions.transformImage(item.thumbnail)} />
 					<div className="char__name">{item.name}</div>
