@@ -13,42 +13,37 @@ const CharList = (props) => {
 	const [characters, setCharacters] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(false);
-	const [newItemsLoading, setNewItemsLoading] = useState(false);
+	const [newItemsLoading, setNewItemsLoading] = useState(true);
 	const [offset, setOffset] = useState(210);
 	const [charEnded, setCharEnded] = useState(false);
 
 
 	const marvelService = new MarvelService();
 
+	useEffect(() => {
+		if (newItemsLoading && !charEnded) {
+			onRequest();
+		}
+	}, [newItemsLoading])
 
 	useEffect(() => {
-		onRequest();
-	}, [])
+		window.addEventListener('scroll', showModalByScroll);
+		return () => window.removeEventListener('scroll', showModalByScroll);
+	})
 
+	const showModalByScroll = () => {
+		if (Math.ceil(window.scrollY + document.documentElement.clientHeight) >= document.documentElement.scrollHeight) {
+			setNewItemsLoading(true);
+		}
+	}
 
-	// useEffect(() => {
-	// 	window.addEventListener('scroll', showModalByScroll);
-	// })
-
-
-	// const showModalByScroll = () => {
-	// 	if (Math.ceil(window.scrollY + document.documentElement.clientHeight) >= document.documentElement.scrollHeight) {
-	// 		setOffset(offset => offset + 9);
-	// 		onRequest(offset);
-	// 	}
-	// }
-
-	// useEffect(() => {
-	// 	window.removeEventListener('scroll', showModalByScroll);
-	// })
-
-
-	const onRequest = (offset) => {
+	const onRequest = () => {
 		onCharListLoading();
 		marvelService
 			.getAllCharacters(offset)
 			.then(onCharListLoaded)
 			.catch(onError)
+			.finally(() => setNewItemsLoading(false))
 	}
 
 	const onCharListLoading = () => {
@@ -57,15 +52,10 @@ const CharList = (props) => {
 
 
 	const onCharListLoaded = (newCharList) => {
-		let ended = false;
-		if (newCharList.length < 9) {
-			ended = true;
-		}
-
 		setCharacters(characters => [...characters, ...newCharList]);
 		setOffset(offset => offset + 9);
 		setLoading(false);
-		setCharEnded(ended);
+		setCharEnded(newCharList.length < 9 ? true : false);
 		setNewItemsLoading(false);
 	}
 
