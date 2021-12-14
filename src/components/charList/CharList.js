@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import ServicesFunctions from '../../services/servicesFunctions';
-import MarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
@@ -11,20 +11,16 @@ import './charList.scss';
 const CharList = (props) => {
 
 	const [characters, setCharacters] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(false);
 	const [newItemsLoading, setNewItemsLoading] = useState(true);
 	const [offset, setOffset] = useState(210);
 	const [charEnded, setCharEnded] = useState(false);
 
 
-	const marvelService = MarvelService();
+	const { loading, error, getAllCharacters } = useMarvelService();
 
 	useEffect(() => {
-		if (newItemsLoading && !charEnded) {
-			onRequest();
-		}
-	}, [newItemsLoading])
+		onRequest(offset, true);
+	}, [])
 
 	useEffect(() => {
 		window.addEventListener('scroll', showModalByScroll);
@@ -33,35 +29,22 @@ const CharList = (props) => {
 
 	const showModalByScroll = () => {
 		if (Math.ceil(window.scrollY + document.documentElement.clientHeight) >= document.documentElement.scrollHeight) {
-			setNewItemsLoading(true);
+			onRequest(offset, false)
 		}
 	}
 
-	const onRequest = () => {
-		onCharListLoading();
-		marvelService
-			.getAllCharacters(offset)
+	const onRequest = (offset, initial) => {
+		initial ? setNewItemsLoading(false) : setNewItemsLoading(true);
+		getAllCharacters(offset)
 			.then(onCharListLoaded)
-			.catch(onError)
 			.finally(() => setNewItemsLoading(false))
 	}
-
-	const onCharListLoading = () => {
-		setNewItemsLoading(true);
-	}
-
 
 	const onCharListLoaded = (newCharList) => {
 		setCharacters(characters => [...characters, ...newCharList]);
 		setOffset(offset => offset + 9);
-		setLoading(false);
 		setCharEnded(newCharList.length < 9 ? true : false);
 		setNewItemsLoading(false);
-	}
-
-	const onError = () => {
-		setError(true);
-		setLoading(false);
 	}
 
 	function renderCharacters(characters, selectedChar) {
@@ -91,8 +74,8 @@ const CharList = (props) => {
 	}
 
 	const { selectedChar } = props;
-	const content = !(loading || error) ? renderCharacters(characters, selectedChar) : null;
-	const spinner = loading ? <Spinner className="spinner-list" /> : null;
+	const content = renderCharacters(characters, selectedChar);
+	const spinner = loading && !newItemsLoading ? <Spinner className="spinner-list" /> : null;
 	const errorMessage = error ? <ErrorMessage /> : null
 	return (
 		<div className="char__list" >
