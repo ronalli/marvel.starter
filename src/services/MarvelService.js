@@ -22,8 +22,13 @@ const useMarvelService = () => {
 	}
 
 	const getAllComics = async (offset = 0) => {
-		const res = await request(`https://gateway.marvel.com:443/v1/public/comics?limit=8&offset=${offset}&apikey=${_apiKey}`);
+		const res = await request(`${_baseUrl}comics?orderBy=issueNumber&limit=8&offset=${offset}&apikey=${_apiKey}`);
 		return res.data.results.map(_transformComics);
+	}
+
+	const getComics = async (id) => {
+		const res = await request(`${_baseUrl}comics/${id}?apikey=${_apiKey}`);
+		return _transformComics(res.data.results[0]);
 	}
 
 	const _transformComics = (comics) => {
@@ -71,7 +76,7 @@ const useMarvelService = () => {
 		return Math.floor(1011000 + Math.random() * (1011400 + 1 - 1011000));
 	}
 
-	return { error, loading, clearError, getAllCharacters, getCharacter, randomIdCharacter, getAllComics }
+	return { error, loading, clearError, getAllCharacters, getCharacter, randomIdCharacter, getAllComics, getComics }
 
 }
 

@@ -8,10 +8,12 @@ import CharInfo from "../charInfo/CharInfo";
 
 import decoration from '../../resources/img/vision.png';
 import ComicsList from "../comicsList/ComicsList";
+import SingleComic from "../singleComic/SingleComic";
 
 const App = (props) => {
 
 	const [selectedChar, setSelectedChar] = useState(null);
+	const [selectedComics, setSelectedComics] = useState(null);
 
 	return (
 		<div className="app" >
@@ -19,7 +21,9 @@ const App = (props) => {
 			<main>
 				<RandomChar />
 
-				<ComicsList />
+				<ComicsList onSelectedComics={setSelectedComics} />
+
+				<SingleComic comicsId={selectedComics} />
 
 				{/* <div className="char__content">
 					<CharList onCharSelected={setSelectedChar} selectedChar={selectedChar} />

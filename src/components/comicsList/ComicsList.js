@@ -8,7 +8,7 @@ import Spinner from "../spinner/Spinner";
 import './comicsList.scss';
 
 
-const ComicsList = () => {
+const ComicsList = (props) => {
 
 	const [comicsList, setComicsList] = useState([]);
 	const [newItemsLoading, setNewItemsLoading] = useState(false);
@@ -21,16 +21,16 @@ const ComicsList = () => {
 		onRequest(offset, true);
 	}, [])
 
-	useEffect(() => {
-		window.addEventListener('scroll', showModalByScroll);
-		return () => window.removeEventListener('scroll', showModalByScroll);
-	})
+	// useEffect(() => {
+	// 	window.addEventListener('scroll', showModalByScroll);
+	// 	return () => window.removeEventListener('scroll', showModalByScroll);
+	// })
 
-	const showModalByScroll = () => {
-		if (Math.ceil(window.scrollY + document.documentElement.clientHeight) >= document.documentElement.scrollHeight) {
-			onRequest(offset, false)
-		}
-	}
+	// const showModalByScroll = () => {
+	// 	if (Math.ceil(window.scrollY + document.documentElement.clientHeight) >= document.documentElement.scrollHeight) {
+	// 		onRequest(offset, false)
+	// 	}
+	// }
 
 	const onRequest = (offset, initial) => {
 		initial ? setNewItemsLoading(false) : setNewItemsLoading(true);
@@ -50,7 +50,14 @@ const ComicsList = () => {
 	function renderItems(arr) {
 		const items = arr.map((item, i) => {
 			return (
-				<li className="comics__item" key={i}>
+				<li
+					className="comics__item"
+					key={i}
+					tabIndex={0}
+					onFocus={() => {
+						props.onSelectedComics(item.id)
+					}}
+				>
 					<a href="#">
 						<img src={item.thumbnail} alt={item.title} className="comics__item-img" />
 						<div className="comics__item-name">{item.title}</div>
