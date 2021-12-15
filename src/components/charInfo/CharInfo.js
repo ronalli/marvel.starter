@@ -16,11 +16,12 @@ const CharInfo = (props) => {
 	}, [props.charId])
 
 
-	const { error, loading, getCharacter } = useMarvelService();
+	const { error, loading, getCharacter, clearError } = useMarvelService();
 
 	const updateChar = () => {
 		const { charId } = props;
 		if (!charId) return;
+		clearError();
 		getCharacter(charId)
 			.then(onCharLoaded)
 	}

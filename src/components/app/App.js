@@ -7,6 +7,7 @@ import CharList from "../charList/CharList";
 import CharInfo from "../charInfo/CharInfo";
 
 import decoration from '../../resources/img/vision.png';
+import ComicsList from "../comicsList/ComicsList";
 
 const App = (props) => {
 
@@ -17,14 +18,20 @@ const App = (props) => {
 			<AppHeader />
 			<main>
 				<RandomChar />
-				<div className="char__content">
+
+				<ComicsList />
+
+				{/* <div className="char__content">
 					<CharList onCharSelected={setSelectedChar} selectedChar={selectedChar} />
 					<ErrorBoundary>
 						<CharInfo charId={selectedChar} />
 					</ErrorBoundary>
-				</div>
+				</div> */}
 				<img className="bg-decoration" src={decoration} alt="vision" />
 			</main>
+
+
+
 		</div>
 	)
 }
