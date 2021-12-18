@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import useMarvelService from '../../services/MarvelService';
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import Spinner from "../spinner/Spinner";
 
-
 import './comicsList.scss';
 
-
-const ComicsList = (props) => {
+const ComicsList = () => {
 
 	const [comicsList, setComicsList] = useState([]);
 	const [newItemsLoading, setNewItemsLoading] = useState(false);
@@ -54,15 +53,12 @@ const ComicsList = (props) => {
 					className="comics__item"
 					key={i}
 					tabIndex={0}
-					onFocus={() => {
-						props.onSelectedComics(item.id)
-					}}
 				>
-					<a href="#">
+					<Link to={`/comics/${item.id}`}>
 						<img src={item.thumbnail} alt={item.title} className="comics__item-img" />
 						<div className="comics__item-name">{item.title}</div>
 						<div className="comics__item-price">{item.price}</div>
-					</a>
+					</Link>
 				</li>
 			)
 		})

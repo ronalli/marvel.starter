@@ -1,16 +1,15 @@
 import { useState } from "react";
 
 import ComicsList from "../comicsList/ComicsList";
-import SingleComic from "../singleComic/SingleComic";
+import { SingleComicPage } from "./index";
 
 
 const ComicsPage = () => {
-	const [selectedComics, setSelectedComics] = useState(null);
 
 	return (
 		<>
-			<ComicsList onSelectedComics={setSelectedComics} />
-			<SingleComic comicsId={selectedComics} />
+			<ComicsList />
+			<SingleComicPage />
 		</>
 	)
 }
