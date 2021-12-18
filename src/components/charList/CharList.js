@@ -7,14 +7,12 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 
 import './charList.scss';
 
-
 const CharList = (props) => {
 
 	const [characters, setCharacters] = useState([]);
 	const [newItemsLoading, setNewItemsLoading] = useState(false);
 	const [offset, setOffset] = useState(210);
 	const [charEnded, setCharEnded] = useState(false);
-
 
 	const { loading, error, getAllCharacters } = useMarvelService();
 
@@ -37,7 +35,7 @@ const CharList = (props) => {
 		initial ? setNewItemsLoading(false) : setNewItemsLoading(true);
 		getAllCharacters(offset)
 			.then(onCharListLoaded)
-			.finally(() => setNewItemsLoading(false))
+		// .finally(() => setNewItemsLoading(false))
 	}
 
 	const onCharListLoaded = (newCharList) => {
@@ -85,7 +83,7 @@ const CharList = (props) => {
 			<button className="button button__main button__long"
 				disabled={newItemsLoading}
 				style={{ 'display': charEnded ? 'none' : 'block' }}
-				onClick={() => onRequest(offset)}
+				onClick={() => onRequest(offset, false)}
 			>
 				<div className="inner">
 					load more</div>
@@ -94,6 +92,5 @@ const CharList = (props) => {
 	)
 
 }
-
 
 export default CharList;
