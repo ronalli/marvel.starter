@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import ComicsList from "../comicsList/ComicsList";
 import { SingleComicPage } from "./index";
 

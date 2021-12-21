@@ -26,7 +26,6 @@ const SingleComicPage = () => {
 	}
 
 	const onComicLoaded = (comic) => {
-		console.log(comic)
 		setComic(comic)
 	}
 
