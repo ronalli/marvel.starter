@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+
 import ServicesFunctions from '../../services/servicesFunctions';
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
@@ -13,7 +15,6 @@ const CharList = (props) => {
 	const [newItemsLoading, setNewItemsLoading] = useState(false);
 	const [offset, setOffset] = useState(210);
 	const [charEnded, setCharEnded] = useState(false);
-
 	const { loading, error, getAllCharacters } = useMarvelService();
 
 	useEffect(() => {
@@ -50,23 +51,28 @@ const CharList = (props) => {
 			let active = selectedChar === item.id;
 			let crazy = active ? 'char__item char__item_selected' : 'char__item';
 			return (
-				<li
-					className={crazy}
-					tabIndex={0}
-					key={item.id}
-					onFocus={() => {
-						props.onCharSelected(item.id)
-					}}
-				>
-					<img src={item.thumbnail} alt={item.name} style={ServicesFunctions.transformImage(item.thumbnail)} />
-					<div className="char__name">{item.name}</div>
-				</li>
+				<CSSTransition key={item.id} classNames='char__item' timeout={500}>
+					<li
+						className={crazy}
+						tabIndex={0}
+						onFocus={() => {
+							props.onCharSelected(item.id)
+						}}
+					>
+						<img src={item.thumbnail} alt={item.name} style={ServicesFunctions.transformImage(item.thumbnail)} />
+						<div className="char__name">{item.name}</div>
+					</li>
+				</CSSTransition>
 			)
+
 		})
 
 		return (
 			<ul className="char__grid">
-				{items}
+				<TransitionGroup component={null}>
+					{items}
+				</TransitionGroup>
+
 			</ul>
 		)
 	}
