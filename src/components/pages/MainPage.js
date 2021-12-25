@@ -5,6 +5,7 @@ import CharList from "../charList/CharList";
 import CharInfo from "../charInfo/CharInfo";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
+import SearchForm from "../searchForm/SearchForm";
 import decoration from '../../resources/img/vision.png';
 
 
@@ -15,7 +16,11 @@ const MainPage = () => {
 		<>
 			<RandomChar />
 			<div className="char__content">
-				<CharList onCharSelected={setSelectedChar} selectedChar={selectedChar} />
+				<div>
+					<SearchForm />
+					<CharList onCharSelected={setSelectedChar} selectedChar={selectedChar} />
+				</div>
+
 				<ErrorBoundary>
 					<CharInfo charId={selectedChar} />
 				</ErrorBoundary>

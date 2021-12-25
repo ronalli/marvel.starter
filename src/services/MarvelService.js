@@ -30,6 +30,10 @@ const useMarvelService = () => {
 		const res = await request(`${_baseUrl}comics/${id}?apikey=${_apiKey}`);
 		return _transformComic(res.data.results[0]);
 	}
+	const getInfoCharacter = async (name) => {
+		const res = await request(`${_baseUrl}/characters?name=${name}&apikey=${_apiKey}`);
+		return res.data.results.map(_transformCharacter);
+	}
 
 	const _transformComic = (comics) => {
 		return {
@@ -76,7 +80,7 @@ const useMarvelService = () => {
 		return Math.floor(1011000 + Math.random() * (1011400 + 1 - 1011000));
 	}
 
-	return { error, loading, clearError, getAllCharacters, getCharacter, randomIdCharacter, getAllComics, getComic }
+	return { error, loading, clearError, getAllCharacters, getCharacter, randomIdCharacter, getAllComics, getComic, getInfoCharacter }
 
 }
 

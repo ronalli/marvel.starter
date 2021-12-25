@@ -47,7 +47,7 @@ const CharList = (props) => {
 	}
 
 	function renderCharacters(characters, selectedChar) {
-		const items = characters.map(item => {
+		const items = characters.map((item, i) => {
 			let active = selectedChar === item.id;
 			let crazy = active ? 'char__item char__item_selected' : 'char__item';
 			return (
