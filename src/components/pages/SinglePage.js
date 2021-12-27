@@ -25,8 +25,6 @@ const SinglePage = ({ Component, dataType }) => {
 				getComic(id).then(onDataLoaded);
 				break;
 			case 'character':
-				console.log(id)
-
 				getCharacter(id).then(onDataLoaded);
 		}
 	}
