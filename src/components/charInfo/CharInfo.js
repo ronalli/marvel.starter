@@ -16,7 +16,7 @@ const CharInfo = (props) => {
 	}, [props.charId])
 
 
-	const { error, loading, getCharacter, clearError } = useMarvelService();
+	const { error, loading, process, setProcess, getCharacter, clearError } = useMarvelService();
 
 	const updateChar = () => {
 		const { charId } = props;
@@ -28,19 +28,30 @@ const CharInfo = (props) => {
 
 	const onCharLoaded = (char) => {
 		setChar(char);
+		setProcess('confirmed')
 	}
 
-	const skeleton = char || error || loading ? null : <Skeleton />
-	const errorMessage = error ? <ErrorMessage /> : null;
-	const spinner = loading ? <Spinner /> : null;
-	const content = !(loading || error || !char) ? <View char={char} /> : null
+	const setContent = (process, char) => {
+		switch (process) {
+			case 'waiting':
+				return <Skeleton />
+				break;
+			case 'loading':
+				return <Spinner />
+				break;
+			case 'error':
+				return <ErrorMessage />
+				break;
+			case 'confirmed':
+				return <View char={char} />
+			default:
+				throw new Error('Fatal error!')
+		}
+	}
 
 	return (
 		<div className="char__info" >
-			{skeleton}
-			{errorMessage}
-			{spinner}
-			{content}
+			{setContent(process, char)}
 		</div>
 	)
 }

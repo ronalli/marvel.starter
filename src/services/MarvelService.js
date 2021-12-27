@@ -3,7 +3,7 @@ import { useHttp } from "../hooks/http.hook";
 
 const useMarvelService = () => {
 
-	const { loading, request, error, clearError } = useHttp();
+	const { loading, request, error, process, setProcess, clearError } = useHttp();
 
 	const _apiKey = '30dcaeb69065d18efc428c1043ef3067';
 	const _baseUrl = 'https://gateway.marvel.com:443/v1/public/';
@@ -80,7 +80,7 @@ const useMarvelService = () => {
 		return Math.floor(1011000 + Math.random() * (1011400 + 1 - 1011000));
 	}
 
-	return { error, loading, clearError, getAllCharacters, getCharacter, randomIdCharacter, getAllComics, getComic, getInfoCharacter }
+	return { error, loading, process, setProcess, clearError, getAllCharacters, getCharacter, randomIdCharacter, getAllComics, getComic, getInfoCharacter }
 
 }
 
