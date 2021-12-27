@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 
 import ServicesFunctions from '../../services/servicesFunctions';
-import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
+import setContent from '../../utils/setContent';
 import useMarvelService from '../../services/MarvelService';
-import Skeleton from '../skeleton/Skeleton';
 import './charInfo.scss';
 
 const CharInfo = (props) => {
@@ -16,7 +14,7 @@ const CharInfo = (props) => {
 	}, [props.charId])
 
 
-	const { error, loading, process, setProcess, getCharacter, clearError } = useMarvelService();
+	const { process, setProcess, getCharacter, clearError } = useMarvelService();
 
 	const updateChar = () => {
 		const { charId } = props;
@@ -24,40 +22,23 @@ const CharInfo = (props) => {
 		clearError();
 		getCharacter(charId)
 			.then(onCharLoaded)
+			.then(() => setProcess('confirmed'))
 	}
 
 	const onCharLoaded = (char) => {
 		setChar(char);
-		setProcess('confirmed')
-	}
 
-	const setContent = (process, char) => {
-		switch (process) {
-			case 'waiting':
-				return <Skeleton />
-				break;
-			case 'loading':
-				return <Spinner />
-				break;
-			case 'error':
-				return <ErrorMessage />
-				break;
-			case 'confirmed':
-				return <View char={char} />
-			default:
-				throw new Error('Fatal error!')
-		}
 	}
 
 	return (
 		<div className="char__info" >
-			{setContent(process, char)}
+			{setContent(process, View, char)}
 		</div>
 	)
 }
 
-const View = ({ char }) => {
-	const { name, description, thumbnail, homepage, wiki, comics } = char;
+const View = ({ data }) => {
+	const { name, description, thumbnail, homepage, wiki, comics } = data;
 
 	const renderComics = (comics) => {
 		if (comics.length === 0) return <p>К большому сожалению, для данного героя комиксов нет! Возможно в будущем это исправится.</p>
